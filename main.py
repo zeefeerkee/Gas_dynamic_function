@@ -32,13 +32,15 @@ while True:
                         f = pow((k+1)*(l**2)/(2+(l**2)*(k-1)), 1/2)
                         print('\nМах был преобразован в λ(', l,',', k, ') = ', f)
                         break
+                    print('\nincorrect\n')
                 break
             else:
                 while True:
-                    l = float(input('\nl = '))
+                    l = float(input('\nλ = '))
                     if is_correct_date(l,i) == True:
                         f = l
                         break
+                    print('\nincorrect\n')
                 break
         break
     print('\nincorrect\n')
