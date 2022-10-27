@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Газодинамические функции</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="base.png">
+    <script src="eel.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+<body>
+
+    <div align = "center" class="content">
+      <img src="base.png" alt="icon" class="logo">
+      <h2>Газодинамические функции</h2>
+      <input type="text" id="znach" placeholder="Значение...">
+      <input type="text" id="adiabatic" placeholder="Коэффициент адиабаты">
+      <button id = "calculate">Получить результат</button>
+      <p id = "results"></p>
+    </div>
+
+
+    <script type = "text/javascript">
+        /*let btn = document.querySelector("#btn");
+        btn.addEventListener("click", sendData);
+        */
+
+        async function sendData() {
+          let val = document.getElementById('znach').value;
+          let k = document.getElementById('adiabatic').value;
+
+          let result = await eel.recv_data(val, k)();
+          document.getElementById('results').innerHTML = result;
+          document.getElementById('znach') = '';
+          document.getElementById('adiabatic') = '';
+        }
+        $('#calculate').click(function(){
+          sendData();
+        });
+    </script>
+
+</body>
+</html>
