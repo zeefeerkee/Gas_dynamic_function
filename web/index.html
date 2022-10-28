@@ -14,30 +14,69 @@
     <div align = "center" class="content">
       <img src="base.png" alt="icon" class="logo">
       <h2>Газодинамические функции</h2>
-      <input type="text" id="znach" placeholder="Значение...">
-      <input type="text" id="adiabatic" placeholder="Коэффициент адиабаты">
+      <input type="checkbox" id="switcher" class ="switch">
+      <label for="switcher" class="switch-for" id = "join">Вход через λ</label>
+      <p>
+      <input type="text" id="znach" placeholder="Значение λ∈[0, 2.45)..." class="ss">
+      <input type="text" id="adiabatic" placeholder="Коэффициент адиабаты" class="ss1">
       <button id = "calculate">Получить результат</button>
+     </p>
       <p id = "results"></p>
     </div>
 
 
     <script type = "text/javascript">
-        /*let btn = document.querySelector("#btn");
-        btn.addEventListener("click", sendData);
-        */
-
+        let switching = 0;
         async function sendData() {
           let val = document.getElementById('znach').value;
           let k = document.getElementById('adiabatic').value;
-
-          let result = await eel.recv_data(val, k)();
+          let result = await eel.recv_data(val, k, $("#switcher").is(':checked'))();
           document.getElementById('results').innerHTML = result;
-          document.getElementById('znach') = '';
-          document.getElementById('adiabatic') = '';
+          if (result == "Значение коэффициента не корректно"){
+            document.getElementById('adiabatic').value = "";
+          }
+          if (result == "Значение не корректно"){
+            document.getElementById('znach').value = "";
+          }
+          if (result != "Значение не корректно" && result != "Значение коэффициента не корректно"){
+            document.getElementById('znach').value = "";
+            document.getElementById('adiabatic').value = "";
+          }
+
         }
         $('#calculate').click(function(){
-          sendData();
+          if (document.getElementById('znach').value == '' || document.getElementById('adiabatic').value == ''){
+            document.getElementById('results').innerHTML = 'Введите значение';
+          }
+          else{
+            sendData();
+          }
         });
+        var switchStatus = false;
+        $("#switcher").on('change', function() {
+            if ($(this).is(':checked')) {
+                switchStatus = $(this).is(':checked');
+                $("#join").text("Вход через M");
+                znach.placeholder = 'Значение М∈[0,ထ)...';
+                document.getElementById('znach').value = "";
+            }
+            else {
+               switchStatus = $(this).is(':checked');
+               $("#join").text("Вход через λ");
+               znach.placeholder = 'Значение λ∈[0, 2.45)...';
+               document.getElementById('znach').value = "";
+            }
+        });
+        document.querySelector('.ss').addEventListener('input',
+            function(e){
+              this.value = this.value.replace(/[^\d.]/g, '');
+            }
+        );
+        document.querySelector('.ss1').addEventListener('input',
+            function(e){
+              this.value = this.value.replace(/[^\d.]/g, '');
+            }
+        );
     </script>
 
 </body>
